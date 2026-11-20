@@ -52,9 +52,8 @@ class Particula {
         this.tamano = tamano;
 
         this.vida = 1;
-        this.gravedad = 0.035;
-
-        this.friccion = 0.985;
+        this.gravedad = 0.045;
+        this.friccion = 0.98;
 
         this.estela = [];
     }
@@ -79,7 +78,8 @@ class Particula {
         this.x += this.vx;
         this.y += this.vy;
 
-        this.vida -= 0.012;
+        // Desaparecer más rápido
+        this.vida -= 0.020;
     }
 
     dibujar() {
@@ -147,14 +147,14 @@ function explosion(x, y) {
         color: color
     });
 
-    // Cantidad aleatoria de partículas
+    // Cantidad de partículas
     let cantidad = 90 + Math.random() * 100;
 
     for (let i = 0; i < cantidad; i++) {
 
         let angulo = Math.random() * Math.PI * 2;
 
-        let velocidad = 2 + Math.random() * 9;
+        let velocidad = 4 + Math.random() * 12;
 
         let tamano = 1 + Math.random() * 3;
 
@@ -170,12 +170,12 @@ function explosion(x, y) {
         );
     }
 
-    // Pequeños destellos blancos
+    // Destellos blancos
     for (let i = 0; i < 25; i++) {
 
         let angulo = Math.random() * Math.PI * 2;
 
-        let velocidad = 3 + Math.random() * 10;
+        let velocidad = 5 + Math.random() * 14;
 
         particulas.push(
             new Particula(
@@ -209,7 +209,7 @@ function dibujarEstrellas() {
     });
 }
 
-// Dibujar ondas
+// Dibujar ondas luminosas
 function dibujarOndas() {
 
     ondas.forEach((onda, index) => {
@@ -234,8 +234,8 @@ function dibujarOndas() {
 
         ctx.stroke();
 
-        onda.radio += 5;
-        onda.alpha -= 0.035;
+        onda.radio += 9;
+        onda.alpha -= 0.065;
 
         if (onda.alpha <= 0) {
             ondas.splice(index, 1);
@@ -249,7 +249,7 @@ function dibujarOndas() {
 // Animación principal
 function animar() {
 
-    // Crear efecto de estela
+    // Fondo oscuro constante
     ctx.fillStyle = "#03000c";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -279,15 +279,5 @@ canvas.addEventListener("click", (e) => {
 
 });
 
-// Primera explosión de demostración
-setTimeout(() => {
-
-    explosion(
-        canvas.width / 2,
-        canvas.height * 0.65
-    );
-
-}, 500);
-
-// Iniciar animación
+// Iniciar animación sin explosión inicial
 animar();
